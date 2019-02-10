@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import api from '../services/api';
-import { View, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import socket from 'socket.io-client';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -27,14 +27,12 @@ export default class Timeline extends Component {
 
   async componentDidMount() {
     this.subscribeToEvents();
-
     const response = await api.get('tweets');
-
     this.setState({ tweets : response.data });
   }
 
   subscribeToEvents = () => {
-    const io = socket('http://localhost:3000');
+    const io = socket('http://192.168.0.228:3000');
 
     io.on('tweet', data => {
         this.setState({ tweets: [data, ...this.state.tweets] });
